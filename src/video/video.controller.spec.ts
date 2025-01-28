@@ -8,7 +8,13 @@ describe('VideoController', () => {
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       controllers: [VideoController],
-      providers: [VideoService],
+      providers: [
+        VideoService,
+        {
+          provide: 'modelModel',
+          useValue: {}, // mock the dependency here
+        },
+      ],
     }).compile();
 
     controller = module.get<VideoController>(VideoController);
