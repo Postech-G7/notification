@@ -1,30 +1,15 @@
-import {
-  Controller,
-  Post,
-  UploadedFile,
-  UseInterceptors,
-} from '@nestjs/common';
+import { Controller, Post, UploadedFile, UseInterceptors } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { VideoService } from './video.service';
-import { diskStorage } from 'multer';
 
-@Controller('video')
+@Controller('upload')
 export class VideoController {
   constructor(private readonly videoService: VideoService) {}
 
-  @Post('upload')
-  @UseInterceptors(FileInterceptor('file', {
-    storage: diskStorage({
-      destination: './uploads',
-      filename: (req, file, cb) => {
-        const filename: string = file.originalname;
-        cb(null, filename);
-      },
-    })
-  }))
-    
-  uploadVideo(@UploadedFile() file: Express.Multer.File) {
-    const video = this.videoService.uploadVideo(file);
-    return {message: 'Video uploaded successfully', video};
+  @Post('video')
+  @UseInterceptors(FileInterceptor('file'))
+  async uploadVideo(@UploadedFile() file: Express.Multer.File) {
+    console.log(file); // Log the file for debugging
+    return this.videoService.uploadVideo(file);
   }
 }
