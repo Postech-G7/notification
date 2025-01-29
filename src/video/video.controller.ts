@@ -1,4 +1,4 @@
-import { Controller, Post, UploadedFile, UseGuards, UseInterceptors } from '@nestjs/common';
+import { Controller, Post, UploadedFile, UseGuards, UseInterceptors, Headers } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { VideoService } from './video.service';
 import { AuthGuard } from '@nestjs/passport';
@@ -8,12 +8,11 @@ export class VideoController {
   constructor(private readonly videoService: VideoService) {}
 
   @Post('video')
-  @UseGuards(AuthGuard('jwt'))  
+  @UseGuards(AuthGuard('jwt'))
   @UseInterceptors(FileInterceptor('file'))
-  async uploadVideo(@UploadedFile() file: Express.Multer.File) {
-    console.log(file); // Log the file for debugging
-    const jwtTpken = file.buffer.toString('base64');
-    console.log(jwtTpken); // Log the jwtTpken for debugging
-    return this.videoService.uploadVideo(file, jwtTpken);
+  async uploadVideo(@UploadedFile() file: Express.Multer.File, @Headers('authorization') authHeader: string) {
+    const jwtToken = authHeader.split(' ')[1]; // Extract the token from the Bearer scheme
+    console.log('Received JWT Token:', jwtToken); // Log the token for debugging
+    return this.videoService.uploadVideo(file, jwtToken);
   }
 }
