@@ -7,7 +7,7 @@ import { Video } from './entities/video.entity';
 export class VideoService {
   constructor(@InjectModel(Video.name) private readonly videoModel: Model<Video>) {}
 
-  async uploadVideo(file: Express.Multer.File): Promise<Video> {
+  async uploadVideo(file: Express.Multer.File, jwtToken: string): Promise<Video> {
     if (!file || !file.buffer) {
       throw new Error('File is missing or invalid');
     }
