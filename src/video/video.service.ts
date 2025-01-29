@@ -12,15 +12,15 @@ export class VideoService {
     if (!file || !file.buffer) {
       throw new Error('File is missing or invalid');
     }
-
+    console.log('Received file:', file); // Log the file for debugging
     try {
-      console.log('JWT Token:', jwtToken); // Log the token for debugging
-      const decodedToken = jwt.verify(jwtToken, process.env.JWT_SECRET) as { id: string };
+      //console.log('JWT Token:', jwtToken); // Log the token for debugging
+      const decodedToken = jwt.verify(jwtToken, process.env.JWT_SECRET) as { id: string, email: string };
       console.log('Decoded Token:', decodedToken); // Log the decoded token for debugging
 
       const video = new this.videoModel({
-        title: 'Sample Title', // Provide a title
-        uploader: 'Sample Uploader', // Provide an uploader
+        title: file.originalname, // Provide a title
+        uploader: decodedToken.email, // Provide an uploader
         base64: file.buffer.toString('base64'), // Convert file buffer to base64
         user_id: decodedToken.id, // Use the user ID from the decoded token
       });
