@@ -34,7 +34,7 @@ jobs:
       - name: 'Set up Cloud SDK'
         uses: 'google-github-actions/setup-gcloud@v1'
         with:
-          project_id: 'storied-imprint-441522-s7'
+          project_id: 'light-ratio-447800-d5'
 
       - name: 'Deploy to Cloud Run'
         run: 'npm run deploy'

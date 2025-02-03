@@ -6,16 +6,24 @@ import * as jwt from 'jsonwebtoken';
 
 @Injectable()
 export class VideoService {
-  constructor(@InjectModel(Video.name) private readonly videoModel: Model<Video>) {}
+  constructor(
+    @InjectModel(Video.name) private readonly videoModel: Model<Video>,
+  ) {}
 
-  async uploadVideo(file: Express.Multer.File, jwtToken: string): Promise<Video> {
+  async uploadVideo(
+    file: Express.Multer.File,
+    jwtToken: string,
+  ): Promise<Video> {
     if (!file || !file.buffer) {
       throw new Error('File is missing or invalid');
     }
     console.log('Received file:', file); // Log the file for debugging
     try {
       //console.log('JWT Token:', jwtToken); // Log the token for debugging
-      const decodedToken = jwt.verify(jwtToken, process.env.JWT_SECRET) as { id: string, email: string };
+      const decodedToken = jwt.verify(jwtToken, process.env.JWT_SECRET) as {
+        id: string;
+        email: string;
+      };
       console.log('Decoded Token:', decodedToken); // Log the decoded token for debugging
 
       const video = new this.videoModel({
