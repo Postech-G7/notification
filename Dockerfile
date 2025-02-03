@@ -12,10 +12,10 @@ COPY . .
 RUN npm run build
 
 # Set environment variables
-ENV PORT=3000
+ENV PORT=8080
 ENV GCP_PROJECT_ID=light-ratio-447800-d5
 
-EXPOSE 3000
+EXPOSE 8080
 
 # Use production mode
 CMD ["npm", "run", "start:prod"]
