@@ -1,20 +1,21 @@
 FROM node:20
-USER root
-WORKDIR /home/node/app
+WORKDIR /app
 
-COPY package.json . 
-COPY package-lock.json . 
-
+# Install dependencies
+COPY package*.json ./
 RUN npm install
 
-COPY tsconfig.json .
-COPY src ./src
+# Copy source code
+COPY . .
 
-RUN npx tsx ./src/swagger.ts
+# Build the application
+RUN npm run build
 
+# Set environment variables
 ENV PORT=3000
 ENV GCP_PROJECT_ID=light-ratio-447800-d5
 
 EXPOSE 3000
 
-CMD ["npm", "start"]
+# Use production mode
+CMD ["npm", "run", "start:prod"]
