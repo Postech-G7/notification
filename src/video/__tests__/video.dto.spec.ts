@@ -6,7 +6,6 @@ describe('Video', () => {
   beforeEach(() => {
     video = new Video();
     video.user_id = '123';
-    video.id = '456';
     video.title = 'Test Video';
     video.uploader = 'test@example.com';
     video.base64 = 'base64-encoded-data';
@@ -19,7 +18,8 @@ describe('Video', () => {
 
   it('should have the correct properties', () => {
     expect(video.user_id).toBe('123');
-    expect(video.id).toBe('456');
+    expect(video.id).toBeDefined(); // Verifica se o ID foi gerado
+    expect(typeof video.id).toBe('string'); // Verifica se o ID é uma string
     expect(video.title).toBe('Test Video');
     expect(video.uploader).toBe('test@example.com');
     expect(video.base64).toBe('base64-encoded-data');
