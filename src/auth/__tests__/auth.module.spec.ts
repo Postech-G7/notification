@@ -9,12 +9,17 @@ describe('AuthModule', () => {
   let authService: AuthService;
   let jwtStrategy: JwtStrategy;
 
+  // Mock da variável de ambiente JWT_SECRET
+  beforeAll(() => {
+    process.env.JWT_SECRET = 'mocked-secret';
+  });
+
   beforeEach(async () => {
     const module = await Test.createTestingModule({
       imports: [
         PassportModule.register({ defaultStrategy: 'jwt' }),
         JwtModule.register({
-          secret: 'mocked-secret', // Mock do JWT_SECRET
+          secret: process.env.JWT_SECRET,
           signOptions: { expiresIn: '60m' },
         }),
         AuthModule,
@@ -40,7 +45,7 @@ describe('AuthModule', () => {
 
   it('should configure JwtModule with correct options', () => {
     const jwtModuleOptions = JwtModule.register({
-      secret: 'mocked-secret',
+      secret: process.env.JWT_SECRET,
       signOptions: { expiresIn: '60m' },
     });
     expect(jwtModuleOptions).toBeDefined();

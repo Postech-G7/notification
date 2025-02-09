@@ -23,10 +23,14 @@ describe('JwtStrategy', () => {
 
   describe('constructor', () => {
     it('should configure JWT strategy with correct options', () => {
-      const superSpy = jest.spyOn(PassportStrategy.prototype, 'super');
+      // Spy no construtor da classe PassportStrategy
+      const passportStrategySpy = jest.spyOn(
+        PassportStrategy.prototype,
+        'super',
+      );
       new JwtStrategy(); // Recria a instância para capturar o spy
 
-      expect(superSpy).toHaveBeenCalledWith({
+      expect(passportStrategySpy).toHaveBeenCalledWith({
         jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
         ignoreExpiration: false,
         secretOrKey: process.env.JWT_SECRET,
