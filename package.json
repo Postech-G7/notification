@@ -1,5 +1,5 @@
 {
-  "name": "video-management",
+  "name": "notification",
   "version": "0.0.1",
   "description": "",
   "author": "",
@@ -18,7 +18,7 @@
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
-    "deploy": "gcloud run deploy video-management --image gcr.io/light-ratio-447800-d5/video-management --region us-central1 --allow-unauthenticated"
+    "deploy": "gcloud run deploy notification --image gcr.io/light-ratio-447800-d5/notification --region us-central1 --allow-unauthenticated --set-secrets JWT_SECRET=projects/470771286195/secrets/JWT_SECRET:latest"
   },
   "dependencies": {
     "@nestjs/common": "^10.0.0",
