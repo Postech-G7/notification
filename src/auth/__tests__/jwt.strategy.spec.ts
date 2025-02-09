@@ -2,9 +2,15 @@ import { Test } from '@nestjs/testing';
 import { JwtStrategy } from '../jwt.strategy';
 import { PassportModule } from '@nestjs/passport';
 import { ExtractJwt } from 'passport-jwt';
+import { PassportStrategy } from '@nestjs/passport';
 
 describe('JwtStrategy', () => {
   let jwtStrategy: JwtStrategy;
+
+  // Mock da variável de ambiente JWT_SECRET
+  beforeAll(() => {
+    process.env.JWT_SECRET = 'mocked-secret';
+  });
 
   beforeEach(async () => {
     const module = await Test.createTestingModule({
@@ -17,10 +23,7 @@ describe('JwtStrategy', () => {
 
   describe('constructor', () => {
     it('should configure JWT strategy with correct options', () => {
-      const superSpy = jest.spyOn(
-        ExtractJwt.PassportStrategy.prototype,
-        'super',
-      );
+      const superSpy = jest.spyOn(PassportStrategy.prototype, 'super');
       new JwtStrategy(); // Recria a instância para capturar o spy
 
       expect(superSpy).toHaveBeenCalledWith({
